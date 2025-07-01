@@ -1,0 +1,1 @@
+# pimcore-flask-solr-api
