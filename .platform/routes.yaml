@@ -1,5 +1,5 @@
 "https://{default}/":
   type: upstream
-  upstream: "app:http"
+  upstream: "flask-app:http"
   cache:
     enabled: false
