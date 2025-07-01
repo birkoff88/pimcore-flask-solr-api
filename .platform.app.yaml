@@ -10,11 +10,10 @@ dependencies:
 web:
   commands:
     start: python app.py
+  upstream: "http"
   locations:
     "/":
-      root: ""
-      passthru: false
-      scripts: true
+      passthru: true
 
 mounts:
   "/data":
