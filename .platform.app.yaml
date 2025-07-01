@@ -10,10 +10,12 @@ dependencies:
 web:
   commands:
     start: python app.py
-  upstream: "http"
+  upstream:
+    socket_family: auto
   locations:
     "/":
       passthru: true
+
 
 mounts:
   "/data":
