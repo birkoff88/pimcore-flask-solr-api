@@ -11,7 +11,7 @@ web:
   commands:
     start: python app.py
   upstream:
-    socket_family: auto
+    socket_family: tcp
   locations:
     "/":
       passthru: true
