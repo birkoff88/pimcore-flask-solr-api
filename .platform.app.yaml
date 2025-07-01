@@ -4,7 +4,7 @@ build:
   flavor: none
 
 dependencies:
-  python:
+  python3:
     pip: ">=23.0"
 
 web:
