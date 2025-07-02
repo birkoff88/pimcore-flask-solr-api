@@ -27,9 +27,19 @@ def get_solr_url():
 
 SOLR_URL = get_solr_url()
 
+
 @app.route("/")
 def home():
-    return jsonify({"message": "Search API is running"})
+    return jsonify({
+        "message": "Flask-Solr Search API is live",
+        "available_endpoints": [
+            "/",
+            "/documents [POST]",
+            "/search?q=term [GET]"
+        ],
+        "solr_url": SOLR_URL
+    })
+
 
 @app.route("/documents", methods=["POST"])
 def index_document():
