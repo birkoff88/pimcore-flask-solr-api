@@ -7,7 +7,7 @@ web:
   locations:
     "/":
       root: ""
-      passthru: false
+      passthru: true
       scripts: true
 
 mounts:
