@@ -20,7 +20,8 @@ def get_solr_url():
             print("Decoded PLATFORM_RELATIONSHIPS:", decoded)
             print("Final SOLR_URL:", f"http://{host}:{port}/{path.strip('/')}")
             # Ensure correct format (no double slashes)
-            return f"http://{host}:{port}/{path.strip('/')}"
+            return f"http://{host}:{port}/{path.lstrip('/')}"
+
         except Exception as e:
             print("ERROR decoding PLATFORM_RELATIONSHIPS:", e)
             raise
