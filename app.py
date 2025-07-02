@@ -10,14 +10,19 @@ app = Flask(__name__)
 def get_solr_url():
     platform_rels = os.getenv("PLATFORM_RELATIONSHIPS")
     if platform_rels:
-        decoded = base64.b64decode(platform_rels).decode("utf-8")
-        relationships = json.loads(decoded)
-        solr = relationships["solr"][0]
-        host = solr["host"]
-        port = solr["port"]
-        path = solr.get("path", "/solr")
-        return f"http://{host}:{port}{path}/mycore"
-    # Fallback for local development
+        try:
+            decoded = base64.b64decode(platform_rels).decode("utf-8")
+            print("Decoded PLATFORM_RELATIONSHIPS:", decoded)  # <-- добави това
+            relationships = json.loads(decoded)
+            solr = relationships["solr"][0]
+            host = solr["host"]
+            port = solr["port"]
+            path = solr.get("path", "/solr")
+            return f"http://{host}:{port}{path}/mycore"
+        except Exception as e:
+            print("ERROR decoding PLATFORM_RELATIONSHIPS:", e)
+            raise
+    # Fallback for local dev
     return "http://localhost:8983/solr/mycore"
 
 SOLR_URL = get_solr_url()
