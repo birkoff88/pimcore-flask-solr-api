@@ -1,11 +1,10 @@
 name: flask-app
-type: python:3.10
-build:
-  flavor: none
+type: "python:3.10"
 
 dependencies:
   python:
-    pip: ">=23.0"
+    flask: "*"
+    requests: "*"
 
 web:
   commands:
@@ -30,6 +29,6 @@ hooks:
   build: |
     pip install -r requirements.txt
   deploy: |
-    # Create Solr core 'mycore' if it doesn't exist
+    echo "Checking Solr core..."
     curl -s "http://solr.internal:8080/solr/admin/cores?action=STATUS&core=mycore" | grep -q '"mycore"' || \
     curl "http://solr.internal:8080/solr/admin/cores?action=CREATE&name=mycore&instanceDir=mycore"
