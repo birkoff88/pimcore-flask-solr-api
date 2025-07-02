@@ -30,3 +30,7 @@ disk: 512
 hooks:
   build: |
     pip install -r requirements.txt
+    # Ensure 'mycore' exists in Solr
+    curl -s "http://solr.internal:8080/solr/admin/cores?action=STATUS&core=mycore" | grep -q '"mycore"' || \
+    curl "http://solr.internal:8080/solr/admin/cores?action=CREATE&name=mycore&instanceDir=mycore"
+

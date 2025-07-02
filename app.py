@@ -12,7 +12,7 @@ def get_solr_url():
     if platform_rels:
         try:
             decoded = base64.b64decode(platform_rels).decode("utf-8")
-            print("Decoded PLATFORM_RELATIONSHIPS:", decoded)  # <-- добави това
+            print("Decoded PLATFORM_RELATIONSHIPS:", decoded) 
             relationships = json.loads(decoded)
             solr = relationships["solr"][0]
             host = solr["host"]
