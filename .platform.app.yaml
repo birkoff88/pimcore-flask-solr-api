@@ -4,18 +4,17 @@ build:
   flavor: none
 
 dependencies:
-  python3:
+  python:
     pip: ">=23.0"
 
 web:
   commands:
     start: python app.py
-  upstream:
-    socket_family: tcp
   locations:
     "/":
-      passthru: true
-
+      root: ""
+      passthru: false
+      scripts: true
 
 mounts:
   "/data":
@@ -30,7 +29,7 @@ disk: 512
 hooks:
   build: |
     pip install -r requirements.txt
-    # Ensure 'mycore' exists in Solr
+  deploy: |
+    # Create Solr core 'mycore' if it doesn't exist
     curl -s "http://solr.internal:8080/solr/admin/cores?action=STATUS&core=mycore" | grep -q '"mycore"' || \
     curl "http://solr.internal:8080/solr/admin/cores?action=CREATE&name=mycore&instanceDir=mycore"
-
