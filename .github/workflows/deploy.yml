@@ -18,10 +18,11 @@ jobs:
           curl -sS https://platform.sh/cli/installer | php
           echo "$HOME/.platformsh/bin" >> $GITHUB_PATH
 
-      - name: Authenticate Platform.sh
-        run: platform auth:api-token ${{ secrets.PLATFORM_API_TOKEN }}
+      - name: Authenticate with Platform.sh
+        run: |
+          ~/.platformsh/bin/platform auth:api-token-login --token "$PLATFORM_API_TOKEN"
         env:
           PLATFORM_API_TOKEN: ${{ secrets.PLATFORM_API_TOKEN }}
 
       - name: Push to Platform.sh
-        run: platform push --yes
+        run: ~/.platformsh/bin/platform push --yes
