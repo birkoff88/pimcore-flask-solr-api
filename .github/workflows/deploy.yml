@@ -9,22 +9,19 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
+    env:
+      PLATFORMSH_CLI_TOKEN: ${{ secrets.PLATFORMSH_CLI_TOKEN }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # Full git history is required
+          fetch-depth: 0  # Prevent shallow clone error
 
       - name: Install Platform.sh CLI
         run: |
           curl -fsSL https://raw.githubusercontent.com/platformsh/cli/main/installer.sh | bash
           echo "$HOME/.platformsh/bin" >> $GITHUB_PATH
-
-      - name: Authenticate with Platform.sh
-        env:
-          PLATFORMSH_CLI_TOKEN: ${{ secrets.PLATFORMSH_CLI_TOKEN }}
-        run: |
-          platform auth:api-token $PLATFORMSH_CLI_TOKEN
 
       - name: Deploy to Platform.sh
         run: |
