@@ -13,17 +13,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Install Platform.sh CLI (native method)
+      - name: Install Platform.sh CLI
         run: |
           curl -fsSL https://raw.githubusercontent.com/platformsh/cli/main/installer.sh | bash
-
-      - name: Add CLI to PATH
-        run: echo "$HOME/.platformsh/bin" >> $GITHUB_PATH
-
-      - name: Authenticate with Platform.sh
-        run: platform auth:api-token --token $PLATFORMSH_CLI_TOKEN
-        env:
-          PLATFORMSH_CLI_TOKEN: ${{ secrets.PLATFORMSH_CLI_TOKEN }}
+          echo "$HOME/.platformsh/bin" >> $GITHUB_PATH
 
       - name: Deploy to Platform.sh
         run: platform push --yes --project=hiaxa77qsgape
