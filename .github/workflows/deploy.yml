@@ -22,4 +22,4 @@ jobs:
         env:
           PLATFORMSH_CLI_TOKEN: ${{ secrets.PLATFORMSH_CLI_TOKEN }}
         run: |
-          platform push --yes --project=hiaxa77qsgape
+          platform push --yes --project=hiaxa77qsgape --force
