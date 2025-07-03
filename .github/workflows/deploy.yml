@@ -15,7 +15,7 @@ jobs:
       - name: Install Platform.sh CLI
         run: |
           curl -fsSL https://platform.sh/cli/installer | php
-          mv platform.phar /usr/local/bin/platform
+          
 
       - name: Authenticate Platform.sh
         env:
