@@ -16,12 +16,7 @@ jobs:
       - name: Install Platform.sh CLI
         run: |
           curl -sS https://platform.sh/cli/installer | php
-          mkdir -p ~/.platformsh/bin
-          mv platform.phar ~/.platformsh/bin/platform
-          chmod +x ~/.platformsh/bin/platform
-
-      - name: Add Platform.sh CLI to PATH
-        run: echo "$HOME/.platformsh/bin" >> $GITHUB_PATH
+          echo "$HOME/.platformsh/bin" >> $GITHUB_PATH
 
       - name: Authenticate Platform.sh
         run: platform auth:api-token ${{ secrets.PLATFORM_API_TOKEN }}
