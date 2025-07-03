@@ -27,3 +27,4 @@ jobs:
         run: |
           platform get --yes --depth=1 --activate
           git push platform main
+
