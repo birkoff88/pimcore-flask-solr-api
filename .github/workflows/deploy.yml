@@ -8,8 +8,6 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    env:
-      PLATFORMSH_CLI_TOKEN: ${{ secrets.PLATFORMSH_CLI_TOKEN }}
 
     steps:
       - name: Checkout code
@@ -20,5 +18,13 @@ jobs:
           curl -fsSL https://raw.githubusercontent.com/platformsh/cli/main/installer.sh | bash
           echo "$HOME/.platformsh/bin" >> $GITHUB_PATH
 
+      - name: Authenticate to Platform.sh
+        env:
+          PLATFORMSH_CLI_TOKEN: ${{ secrets.PLATFORMSH_CLI_TOKEN }}
+        run: |
+          mkdir -p ~/.platformsh
+          echo "{\"api_token\": \"${PLATFORMSH_CLI_TOKEN}\"}" > ~/.platformsh/config.json
+
       - name: Deploy to Platform.sh
-        run: platform push --yes --project=hiaxa77qsgape
+        run: |
+          ~/.platformsh/bin/platform push --yes --project=hiaxa77qsgape
