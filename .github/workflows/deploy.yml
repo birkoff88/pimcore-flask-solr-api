@@ -16,7 +16,9 @@ jobs:
       - name: Install Platform.sh CLI
         run: |
           curl -fsSL https://raw.githubusercontent.com/platformsh/cli/main/installer.sh | bash
-          echo "$HOME/.platformsh/bin" >> $GITHUB_PATH
+
+      - name: Add Platform.sh to PATH
+        run: echo "$HOME/.platformsh/bin" >> $GITHUB_PATH
 
       - name: Authenticate to Platform.sh
         env:
@@ -26,5 +28,4 @@ jobs:
           echo "{\"api_token\": \"${PLATFORMSH_CLI_TOKEN}\"}" > ~/.platformsh/config.json
 
       - name: Deploy to Platform.sh
-        run: |
-          ~/.platformsh/bin/platform push --yes --project=hiaxa77qsgape
+        run: platform push --yes --project=hiaxa77qsgape
