@@ -1,0 +1,29 @@
+name: Deploy to Platform.sh
+
+on:
+  push:
+    branches:
+      - main  # or 'master', depending on your repo
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Platform.sh CLI
+        run: |
+          curl -fsSL https://platform.sh/cli/installer | php
+          mv platform.phar /usr/local/bin/platform
+
+      - name: Authenticate Platform.sh
+        env:
+          PLATFORM_API_TOKEN: ${{ secrets.PLATFORM_API_TOKEN }}
+        run: |
+          platform auth:api-token $PLATFORM_API_TOKEN
+
+      - name: Push to Platform.sh
+        run: |
+          platform get --yes --depth=1 --activate
+          git push platform main
