@@ -1,96 +1,69 @@
-## Flask Solr Search API
+# Flask Solr Search API
 
 A minimal Flask-based REST API connected to Apache Solr, deployed on Platform.sh.
 
-### 🔗 Live Demo
+## 🔗 Live Demo
 
-[https://main-](https://main-<env>-<project>.platformsh.site)[-](https://main-<env>-<project>.platformsh.site)[.platformsh.site](https://main-<env>-<project>.platformsh.site)
+[https://main-bvxea6i-hiaxa77qsgape.de-2.platformsh.site](https://main-bvxea6i-hiaxa77qsgape.de-2.platformsh.site)
 
-### 🧠 Features
+## 🧠 Features
 
 * Lightweight Flask API
 * Index documents into Solr
-* Perform full-text search
-* Fully deployed and hosted on Platform.sh
-* Dynamic environment detection via `PLATFORM_RELATIONSHIPS`
+* List all indexed documents
+* Dynamic Solr URL detection via `PLATFORM_RELATIONSHIPS`
+* Fully deployed via Platform.sh + GitHub Actions
 
----
+## 🚀 API Endpoints
 
-### 📦 Requirements
+**POST /documents**
+Index a document into Solr:
 
-* Python 3.10+
-* `Flask`, `requests`
-* Platform.sh account (for deployment)
-
----
-
-### 🚀 API Endpoints
-
-#### `GET /`
-
-Health check
-
-```json
-{
-  "message": "Search API is running"
-}
+```
+curl -X POST https://main-bvxea6i-hiaxa77qsgape.de-2.platformsh.site/documents \
+  -H "Content-Type: application/json" \
+  -d '{"id": "101", "text_t": "Pimcore integration test"}'
 ```
 
-#### `POST /documents`
+**GET /search?q=\*:**
+List all indexed documents:
 
-Index a new document into Solr
-
-**Request:**
-
-```json
-{
-  "id": "test1",
-  "title": "Hello Solr"
-}
+```
+curl "https://main-bvxea6i-hiaxa77qsgape.de-2.platformsh.site/search?q=*:*"
 ```
 
-**Response:**
+🚧 Note: Due to the default Solr schema on Platform.sh, only predefined dynamic fields (like `text_t`) are indexed and searchable. Other fields may be ignored unless a custom schema is applied. This demo avoids schema customization for simplicity.
 
-```json
-{
-  "responseHeader": {
-    "status": 0,
-    ...
-  }
-}
-```
+## ⚙️ Deployment (Platform.sh)
 
-#### `GET /search?q=term`
-
-Search documents in Solr
-
-**Response:**
-
-```json
-{
-  "response": {
-    "docs": [ ... ]
-  }
-}
-```
-
----
-
-### ⚙️ Deployment (Platform.sh)
-
-1. Clone the repo
-2. Run `platform project:set-remote` or `platform init`
-3. Push to Platform.sh:
+To deploy this project:
 
 ```bash
+git clone https://github.com/birkoff88/pimcore-flask-solr-api.git
+cd pimcore-flask-solr-api
+platform project:set-remote hiaxa77qsgape
 git push platform main
 ```
+**Note:** Requires a [Platform.sh](https://platform.sh/) account and the [Platform.sh CLI](https://docs.platform.sh/development/cli.html) installed.
 
-4. Done ✅
 
----
+Live app: https://main-bvxea6i-hiaxa77qsgape.de-2.platformsh.site
 
-### 🧪 Local Development
+
+CI/CD is handled by GitHub Actions.
+
+## 🧪 Local Development
+
+To run locally:
+
+1. Start Solr in Docker:
+
+```bash
+docker run -d -p 8983:8983 --name my-solr solr
+docker exec -it my-solr solr create_core -c collection1
+```
+
+2. Set up Python and Flask:
 
 ```bash
 python3 -m venv venv
@@ -99,31 +72,29 @@ pip install -r requirements.txt
 python app.py
 ```
 
-Solr must be running locally at `http://localhost:8983/solr/mycore` for development mode.
+Solr will be available at [http://localhost:8983/solr/collection1](http://localhost:8983/solr/collection1)
 
----
-
-### 📁 Project Structure
+## 📁 Project Structure
 
 ```
 ├── app.py
-├── requirements.txt
+├── .github/
+│   └── workflows/deploy.yml
 ├── .platform/
-│   ├── .platform.app.yaml
 │   ├── services.yaml
-│   └── routes.yaml
+│   ├── routes.yaml
+│   └── local/
+│       ├── .gitignore
+│       ├── project.yaml
+│       └── README.txt
+├── .platform.app.yaml
+├── requirements.txt
+├── .gitignore
+├── LICENSE
+└── README.md
 ```
 
----
+## 👨‍💻 Author
 
-### 🔐 Notes
-
-* Flask binds to `0.0.0.0:8080` in deployment
-* Solr core is assumed to be `mycore`
-* Reads `PLATFORM_RELATIONSHIPS` for Solr config on Platform.sh
-
----
-
-### 👨‍💻 Author
-
-Boris Petrov – DevOps Engineer 
+Boris Petrov
+DevOps Engineer | Platform.sh Demo Project
